@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
-import "./App.scss";
+import styles from "./App.module.scss";
 import NavBar from "./components/navBar/NavBar";
+import Search from "./components/searchBar/Search";
 
 function App() {
   return (
     <Fragment>
       <NavBar />
+      <Search />
     </Fragment>
   );
 }

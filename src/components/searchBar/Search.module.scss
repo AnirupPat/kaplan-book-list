@@ -1,0 +1,17 @@
+.div {
+  margin: 5px 15px;
+  width: 300px;
+  border-bottom: 1px solid black;
+  i {
+    margin-right: 10px;
+  }
+  input {
+    border: none;
+    border-bottom: black;
+    outline: none;
+    font-size: 20px;
+  }
+  @media (max-width: 500px) {
+    width: 90%;
+  }
+}
