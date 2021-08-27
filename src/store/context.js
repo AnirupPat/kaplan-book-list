@@ -11,6 +11,12 @@ const inputReducer = (state, action) => {
       books: action.value,
       search: "",
     };
+  } else if (action.type === "SEARCH") {
+    console.log(action.value);
+    return {
+      books: state.books,
+      search: action.value,
+    };
   }
   return state;
 };

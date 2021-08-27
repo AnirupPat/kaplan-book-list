@@ -7,21 +7,31 @@ import BookList from "./components/bookList/BookList";
 import { useDispatch, useSelector } from "react-redux";
 
 function App() {
-  const books = useSelector((state) => state.books);
+  let books = useSelector((state) => state.books);
+  const searchQuery = useSelector((state) => state.search);
+  if (searchQuery !== "" && books.length > 0) {
+    books = books.filter((book) => {
+      return (
+        book.volumeInfo.title.toLowerCase().includes(searchQuery) ||
+        book.volumeInfo.publisher?.toLowerCase().includes(searchQuery) ||
+        book.volumeInfo.authors.join(", ").toLowerCase().includes(searchQuery)
+      );
+    });
+  }
   const dispatch = useDispatch();
-  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+  const { isLoading, error, sendRequest: fetchBooks } = useHttp();
 
   useEffect(() => {
     const transformTasks = (tasksObj) => {
       dispatch({ type: "SET", value: tasksObj.items });
     };
-    fetchTasks(
+    fetchBooks(
       {
         url: "https://www.googleapis.com/books/v1/volumes?q=kaplan%20test%20prep",
       },
       transformTasks
     );
-  }, [fetchTasks]);
+  }, [fetchBooks]);
 
   return (
     <Fragment>
