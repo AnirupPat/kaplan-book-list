@@ -4,17 +4,16 @@ import styles from "./App.module.scss";
 import NavBar from "./components/navBar/NavBar";
 import Search from "./components/searchBar/Search";
 import BookList from "./components/bookList/BookList";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const books = useSelector((state) => state.books);
+  const dispatch = useDispatch();
   const { isLoading, error, sendRequest: fetchTasks } = useHttp();
 
   useEffect(() => {
     const transformTasks = (tasksObj) => {
-      console.log("fetch call-----------");
-      console.log(tasksObj);
-
-      setBooks(tasksObj.items);
+      dispatch({ type: "SET", value: tasksObj.items });
     };
     fetchTasks(
       {
