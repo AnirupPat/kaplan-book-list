@@ -1,0 +1,13 @@
+.bookList {
+  margin: 5px 15px;
+  p {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .books {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+  }
+}
