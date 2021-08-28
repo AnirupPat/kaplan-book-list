@@ -6,6 +6,7 @@ import Search from "./components/UI/searchBar/Search";
 import BookList from "./components/bookList/BookList";
 import Modal from "./components/UI/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
+import NewBook from "./components/newBook/NewBook";
 
 function App() {
   const [newBook, setNewBook] = useState(false);
@@ -52,16 +53,6 @@ function App() {
     setNewBook(false);
   };
 
-  const cartModalContent = (
-    <React.Fragment>
-      <div>
-        <span>Amount</span>
-        <span>100</span>
-        <button onClick={handleCloseBookModal}>Close</button>
-      </div>
-    </React.Fragment>
-  );
-
   return (
     <Fragment>
       <NavBar onAddBook={handleAddBook} />
@@ -69,7 +60,9 @@ function App() {
         <Search />
         <BookList items={books} />
         {newBook && (
-          <Modal onClose={handleModalClose}>{cartModalContent}</Modal>
+          <Modal onClose={handleModalClose}>
+            <NewBook onModalClose={handleCloseBookModal} />
+          </Modal>
         )}
       </main>
     </Fragment>
