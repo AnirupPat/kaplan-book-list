@@ -2,19 +2,28 @@ import React, { Fragment, useState, useEffect } from "react";
 import useHttp from "./hooks/use-http";
 import styles from "./App.module.scss";
 import NavBar from "./components/navBar/NavBar";
-import Search from "./components/searchBar/Search";
+import Search from "./components/UI/searchBar/Search";
 import BookList from "./components/bookList/BookList";
+import Modal from "./components/UI/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const [newBook, setNewBook] = useState(false);
   let books = useSelector((state) => state.books);
   const searchQuery = useSelector((state) => state.search);
   if (searchQuery !== "" && books.length > 0) {
     books = books.filter((book) => {
       return (
-        book.volumeInfo.title.toLowerCase().includes(searchQuery) ||
-        book.volumeInfo.publisher?.toLowerCase().includes(searchQuery) ||
-        book.volumeInfo.authors.join(", ").toLowerCase().includes(searchQuery)
+        book.volumeInfo.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        book.volumeInfo.publisher
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        book.volumeInfo.authors
+          .join(", ")
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
       );
     });
   }
@@ -33,11 +42,36 @@ function App() {
     );
   }, [fetchBooks]);
 
+  const handleModalClose = () => {};
+
+  const handleAddBook = () => {
+    setNewBook(true);
+  };
+
+  const handleCloseBookModal = () => {
+    setNewBook(false);
+  };
+
+  const cartModalContent = (
+    <React.Fragment>
+      <div>
+        <span>Amount</span>
+        <span>100</span>
+        <button onClick={handleCloseBookModal}>Close</button>
+      </div>
+    </React.Fragment>
+  );
+
   return (
     <Fragment>
-      <NavBar />
-      <Search />
-      <BookList items={books} />
+      <NavBar onAddBook={handleAddBook} />
+      <main>
+        <Search />
+        <BookList items={books} />
+        {newBook && (
+          <Modal onClose={handleModalClose}>{cartModalContent}</Modal>
+        )}
+      </main>
     </Fragment>
   );
 }

@@ -8,6 +8,7 @@ const Button = (props) => {
     setTimeout(() => {
       setButtonHighlighted(false);
     }, 300);
+    props.onClick();
   };
   const numberClass = `${styles.button} ${
     buttonHighlighted ? styles.bump : ""
