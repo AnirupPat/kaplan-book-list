@@ -1,16 +1,14 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import useHttp from "./hooks/use-http";
-import styles from "./App.module.scss";
 import NavBar from "./components/navBar/NavBar";
 import Search from "./components/UI/searchBar/Search";
 import BookList from "./components/bookList/BookList";
-import Modal from "./components/UI/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import NewBook from "./components/newBook/NewBook";
 
 function App() {
-  const [newBook, setNewBook] = useState(false);
   let books = useSelector((state) => state.books);
+  let newBook = useSelector((state) => state.modalShow);
   const searchQuery = useSelector((state) => state.search);
   if (searchQuery !== "" && books.length > 0) {
     books = books.filter((book) => {
@@ -30,7 +28,6 @@ function App() {
   }
   const dispatch = useDispatch();
   const { isLoading, error, sendRequest: fetchBooks } = useHttp();
-
   useEffect(() => {
     const transformTasks = (tasksObj) => {
       dispatch({ type: "SET", value: tasksObj.items });
@@ -43,27 +40,13 @@ function App() {
     );
   }, [fetchBooks]);
 
-  const handleModalClose = () => {};
-
-  const handleAddBook = () => {
-    setNewBook(true);
-  };
-
-  const handleCloseBookModal = () => {
-    setNewBook(false);
-  };
-
   return (
     <Fragment>
-      <NavBar onAddBook={handleAddBook} />
+      <NavBar />
       <main>
         <Search />
         <BookList items={books} />
-        {newBook && (
-          <Modal onClose={handleModalClose}>
-            <NewBook onModalClose={handleCloseBookModal} />
-          </Modal>
-        )}
+        {newBook && <NewBook />}
       </main>
     </Fragment>
   );

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../UI/button/Button";
 import styles from "./NewBook.module.scss";
 import useForm from "../../hooks/use-form";
+import Modal from "../UI/modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
 
-const NewBook = (props) => {
+const NewBook = () => {
+  const dispatch = useDispatch();
   const {
     value: titleInputValue,
     reset: titleResetHandler,
-    hasError: nameHasError,
+    hasError: titleHasError,
     isValid: nameIsValid,
-    valueChangeHandler: nameChangeHandler,
-    inputBlurHandler: nameBlurHandler,
+    valueChangeHandler: titleChangeHandler,
+    inputBlurHandler: titleBlurHandler,
   } = useForm((value) => value.trim() !== "");
 
   const {
@@ -18,8 +21,8 @@ const NewBook = (props) => {
     reset: authorResetHandler,
     hasError: authorHasError,
     isValid: authorIsValid,
-    valueChangeHandler: lastnameChangeHandler,
-    inputBlurHandler: lastnameBlurHandler,
+    valueChangeHandler: authorChangeHandler,
+    inputBlurHandler: authorBlurHandler,
   } = useForm((value) => value.trim() !== "");
 
   const {
@@ -27,8 +30,8 @@ const NewBook = (props) => {
     reset: emailResetHandler,
     hasError: emailHasError,
     isValid: emailIsValid,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
+    valueChangeHandler: publisherChangeHandler,
+    inputBlurHandler: publisherBlurHandler,
   } = useForm((value) => value.trim() !== "");
 
   let formIsValid = false;
@@ -37,7 +40,7 @@ const NewBook = (props) => {
   }
 
   const formSubmitHandler = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (!formIsValid) {
       return;
     }
@@ -50,53 +53,59 @@ const NewBook = (props) => {
     emailResetHandler();
   };
 
-  const nameClass = nameHasError
+  const titleClass = titleHasError
     ? `${styles["form-control"]} ${styles["invalid"]}`
     : styles["form-control"];
-  const lastnameClass = authorHasError
+  const authorClass = authorHasError
     ? `${styles["form-control"]} ${styles["invalid"]}`
     : styles["form-control"];
-  const emailClass = emailHasError
+  const publisherClass = emailHasError
     ? `${styles["form-control"]} ${styles["invalid"]}`
     : styles["form-control"];
   const submitHandler = () => {};
 
+  const handleModalClose = () => {
+    setTimeout(() => {
+      dispatch({ type: "MODAL", value: false });
+    }, 300);
+  };
+
   return (
-    <React.Fragment>
+    <Modal>
       <form onSubmit={formSubmitHandler}>
         <div className={styles["control-group"]}>
-          <div className={nameClass}>
-            <label htmlFor="name">Book Title</label>
+          <div className={titleClass}>
+            <label htmlFor="title">Book Title</label>
             <input
               value={titleInputValue}
-              onChange={nameChangeHandler}
-              onBlur={nameBlurHandler}
+              onChange={titleChangeHandler}
+              onBlur={titleBlurHandler}
               type="text"
-              id="name"
+              id="title"
             />
-            {nameHasError && (
+            {titleHasError && (
               <p className={styles["error-text"]}>Book Title is not entered</p>
             )}
           </div>
-          <div className={lastnameClass}>
-            <label htmlFor="lastname">Author</label>
+          <div className={authorClass}>
+            <label htmlFor="author">Author</label>
             <input
               value={authorInputValue}
-              onChange={lastnameChangeHandler}
-              onBlur={lastnameBlurHandler}
+              onChange={authorChangeHandler}
+              onBlur={authorBlurHandler}
               type="text"
-              id="lastname"
+              id="author"
             />
             {authorHasError && (
               <p className={styles["error-text"]}>Author is not entered</p>
             )}
           </div>
-          <div className={emailClass}>
+          <div className={publisherClass}>
             <label htmlFor="email">Publisher</label>
             <input
               value={publisherInputValue}
-              onChange={emailChangeHandler}
-              onBlur={emailBlurHandler}
+              onChange={publisherChangeHandler}
+              onBlur={publisherBlurHandler}
               type="email"
               id="email"
             />
@@ -107,12 +116,17 @@ const NewBook = (props) => {
         </div>
 
         <div className={styles["form-actions"]}>
-          <button disabled={!formIsValid}>Submit</button>
-          <Button label="Close" onClick={props.onModalClose} />
+          {/* <button disabled={!formIsValid}>Submit</button> */}
+          <Button
+            label="Submit"
+            disabled={!formIsValid}
+            onClick={formSubmitHandler}
+          />
+          <Button label="Close" onClick={handleModalClose} />
         </div>
       </form>
-    </React.Fragment>
+    </Modal>
   );
 };
 
-export default NewBook;
+export default React.memo(NewBook);
