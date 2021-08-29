@@ -1,9 +1,21 @@
 import { createStore } from "redux";
 
 const inputReducer = (state, action) => {
-  if (action.type === "add") {
+  if (action.type === "ADD") {
+    let newBook = {
+      id: Date.now(),
+      volumeInfo: {
+        title: action.value.titleInputValue,
+        authors: [action.value.authorInputValue],
+        publisher: action.value.publisherInputValue,
+        publishedDate: action.value.publishedDateInputValue,
+      },
+    };
+    let bookArray = [...state.books];
+    bookArray.unshift(newBook);
+
     return {
-      books: [],
+      books: bookArray,
       search: "",
       modalShow: false,
     };
@@ -14,14 +26,12 @@ const inputReducer = (state, action) => {
       modalShow: false,
     };
   } else if (action.type === "SEARCH") {
-    console.log(action.value);
     return {
       ...state,
       books: state.books,
       search: action.value,
     };
   } else if (action.type === "MODAL") {
-    console.log(action.value);
     return {
       ...state,
       modalShow: action.value,

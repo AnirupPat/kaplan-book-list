@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Button from "../UI/button/Button";
 import styles from "./NewBook.module.scss";
 import useForm from "../../hooks/use-form";
 import Modal from "../UI/modal/Modal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const NewBook = () => {
   const dispatch = useDispatch();
@@ -27,30 +27,52 @@ const NewBook = () => {
 
   const {
     value: publisherInputValue,
-    reset: emailResetHandler,
-    hasError: emailHasError,
-    isValid: emailIsValid,
+    reset: publisherResetHandler,
+    hasError: publisherHasError,
+    isValid: publisherIsValid,
     valueChangeHandler: publisherChangeHandler,
     inputBlurHandler: publisherBlurHandler,
   } = useForm((value) => value.trim() !== "");
 
+  const {
+    value: publishedDateInputValue,
+    reset: publishedDateResetHandler,
+    hasError: publishedDateHasError,
+    isValid: publishedDateIsValid,
+    valueChangeHandler: publishedDateChangeHandler,
+    inputBlurHandler: publishedDateBlurHandler,
+  } = useForm((value) => value.trim() !== "");
+
   let formIsValid = false;
-  if (nameIsValid && authorIsValid && emailIsValid) {
+  if (
+    nameIsValid &&
+    authorIsValid &&
+    publisherIsValid &&
+    publishedDateIsValid
+  ) {
     formIsValid = true;
   }
 
-  const formSubmitHandler = (event) => {
-    // event.preventDefault();
+  const formSubmitHandler = () => {
     if (!formIsValid) {
       return;
     }
-    console.log(titleInputValue);
-    console.log(authorInputValue);
-    console.log(publisherInputValue);
 
     titleResetHandler();
     authorResetHandler();
-    emailResetHandler();
+    publisherResetHandler();
+    publishedDateResetHandler();
+    setTimeout(() => {
+      dispatch({
+        type: "ADD",
+        value: {
+          titleInputValue,
+          authorInputValue,
+          publisherInputValue,
+          publishedDateInputValue,
+        },
+      });
+    }, 300);
   };
 
   const titleClass = titleHasError
@@ -59,10 +81,12 @@ const NewBook = () => {
   const authorClass = authorHasError
     ? `${styles["form-control"]} ${styles["invalid"]}`
     : styles["form-control"];
-  const publisherClass = emailHasError
+  const publisherClass = publisherHasError
     ? `${styles["form-control"]} ${styles["invalid"]}`
     : styles["form-control"];
-  const submitHandler = () => {};
+  const publishedDateClass = publishedDateHasError
+    ? `${styles["form-control"]} ${styles["invalid"]}`
+    : styles["form-control"];
 
   const handleModalClose = () => {
     setTimeout(() => {
@@ -109,8 +133,23 @@ const NewBook = () => {
               type="email"
               id="email"
             />
-            {emailHasError && (
+            {publisherHasError && (
               <p className={styles["error-text"]}>Publisher is not entered</p>
+            )}
+          </div>
+          <div className={publishedDateClass}>
+            <label htmlFor="date">Published Date</label>
+            <input
+              value={publishedDateInputValue}
+              onChange={publishedDateChangeHandler}
+              onBlur={publishedDateBlurHandler}
+              type="date"
+              id="date"
+            />
+            {publishedDateHasError && (
+              <p className={styles["error-text"]}>
+                Published Date is not entered
+              </p>
             )}
           </div>
         </div>

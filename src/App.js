@@ -27,7 +27,7 @@ function App() {
     });
   }
   const dispatch = useDispatch();
-  const { isLoading, error, sendRequest: fetchBooks } = useHttp();
+  const { sendRequest: fetchBooks } = useHttp();
   useEffect(() => {
     const transformTasks = (tasksObj) => {
       dispatch({ type: "SET", value: tasksObj.items });
@@ -38,7 +38,7 @@ function App() {
       },
       transformTasks
     );
-  }, [fetchBooks]);
+  }, [fetchBooks, dispatch]);
 
   return (
     <Fragment>
