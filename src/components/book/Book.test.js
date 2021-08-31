@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import Book from "./Book";
 
 describe("Book component", () => {
-  test(" Attribute for Book component", async () => {
+  test("Attribute test for Book component", async () => {
     const bookObj = {
       id: Date.now(),
       volumeInfo: {

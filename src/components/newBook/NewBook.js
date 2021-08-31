@@ -161,7 +161,6 @@ const NewBook = () => {
         </div>
 
         <div className={styles["form-actions"]}>
-          {/* <button disabled={!formIsValid}>Submit</button> */}
           <Button
             label="Submit"
             disabled={!formIsValid}
