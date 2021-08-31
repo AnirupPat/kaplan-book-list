@@ -27,7 +27,7 @@ function App() {
     });
   }
   const dispatch = useDispatch();
-  const { sendRequest: fetchBooks, isLoading, error } = useHttp();
+  const { isLoading, error, sendRequest: fetchBooks } = useHttp();
 
   useEffect(() => {
     const transformTasks = (tasksObj) => {
@@ -45,7 +45,7 @@ function App() {
       <NavBar />
       <main>
         <Search />
-        <BookList items={books} loading={isLoading} />
+        <BookList items={books} loading={isLoading} error={error} />
         {newBook && <NewBook />}
       </main>
     </Fragment>

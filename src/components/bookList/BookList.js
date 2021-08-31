@@ -1,18 +1,34 @@
+import { Fragment } from "react";
 import Book from "../book/Book";
+import FallBack from "../fallBack/FallBack";
 import styles from "./BookList.module.scss";
 
-const BookList = ({ items, loading }) => {
-  let content;
-  if (loading || !items) {
-    content = <p>Loading tasks...</p>;
+const BookList = ({ items, loading, error }) => {
+  let content, fallback;
+  if (error) {
+    let errorElement = (
+      <p>We are facing some issues. Crash Landing. Moving out of orbit.</p>
+    );
+    fallback = <FallBack>{errorElement} </FallBack>;
   } else {
-    content = items.map((item) => <Book key={item.id} info={item} />);
+    if (loading || !items) {
+      let loadingElement = <p>Loading Books...Hold on tight</p>;
+      content = <FallBack>{loadingElement} </FallBack>;
+    } else {
+      content = items.map((item) => <Book key={item.id} info={item} />);
+    }
   }
+
   return (
-    <section className={styles.bookList}>
-      <p>All Books</p>
-      <div className={styles.books}>{content}</div>
-    </section>
+    <Fragment>
+      {content && (
+        <section className={styles.bookList}>
+          <p>All Books</p>
+          <div className={styles.books}>{content}</div>
+        </section>
+      )}
+      {error && fallback}
+    </Fragment>
   );
 };
 
