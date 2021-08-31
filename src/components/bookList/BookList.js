@@ -3,7 +3,7 @@ import styles from "./BookList.module.scss";
 
 const BookList = ({ items, loading }) => {
   let content;
-  if (loading) {
+  if (loading || !items) {
     content = <p>Loading tasks...</p>;
   } else {
     content = items.map((item) => <Book key={item.id} info={item} />);

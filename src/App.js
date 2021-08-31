@@ -8,7 +8,6 @@ import NewBook from "./components/newBook/NewBook";
 
 function App() {
   let books = useSelector((state) => state.books);
-
   let newBook = useSelector((state) => state.modalShow);
   const searchQuery = useSelector((state) => state.search);
   if (searchQuery !== "" && books.length > 0) {
@@ -28,7 +27,8 @@ function App() {
     });
   }
   const dispatch = useDispatch();
-  const { sendRequest: fetchBooks } = useHttp();
+  const { sendRequest: fetchBooks, isLoading, error } = useHttp();
+
   useEffect(() => {
     const transformTasks = (tasksObj) => {
       dispatch({ type: "SET", value: tasksObj.items });
@@ -40,14 +40,12 @@ function App() {
       transformTasks
     );
   }, [fetchBooks, dispatch]);
-
   return (
     <Fragment>
-      <p>learn react</p>
       <NavBar />
       <main>
         <Search />
-        <BookList items={books} data-testid="list" />
+        <BookList items={books} loading={isLoading} />
         {newBook && <NewBook />}
       </main>
     </Fragment>
