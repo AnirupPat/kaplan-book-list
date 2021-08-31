@@ -108,7 +108,9 @@ const NewBook = () => {
               id="title"
             />
             {titleHasError && (
-              <p className={styles["error-text"]}>Book Title is not entered</p>
+              <span className={styles["error-text"]}>
+                Book Title is not entered
+              </span>
             )}
           </div>
           <div className={authorClass}>
@@ -121,7 +123,9 @@ const NewBook = () => {
               id="author"
             />
             {authorHasError && (
-              <p className={styles["error-text"]}>Author is not entered</p>
+              <span className={styles["error-text"]}>
+                Author is not entered
+              </span>
             )}
           </div>
           <div className={publisherClass}>
@@ -134,7 +138,9 @@ const NewBook = () => {
               id="email"
             />
             {publisherHasError && (
-              <p className={styles["error-text"]}>Publisher is not entered</p>
+              <span className={styles["error-text"]}>
+                Publisher is not entered
+              </span>
             )}
           </div>
           <div className={publishedDateClass}>
@@ -147,9 +153,9 @@ const NewBook = () => {
               id="date"
             />
             {publishedDateHasError && (
-              <p className={styles["error-text"]}>
+              <span className={styles["error-text"]}>
                 Published Date is not entered
-              </p>
+              </span>
             )}
           </div>
         </div>

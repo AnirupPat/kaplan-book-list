@@ -9,10 +9,10 @@ const BookList = ({ items, loading }) => {
     content = items.map((item) => <Book key={item.id} info={item} />);
   }
   return (
-    <div className={styles.bookList}>
+    <section className={styles.bookList}>
       <p>All Books</p>
       <div className={styles.books}>{content}</div>
-    </div>
+    </section>
   );
 };
 

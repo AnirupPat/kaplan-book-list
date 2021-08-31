@@ -8,6 +8,7 @@ import NewBook from "./components/newBook/NewBook";
 
 function App() {
   let books = useSelector((state) => state.books);
+
   let newBook = useSelector((state) => state.modalShow);
   const searchQuery = useSelector((state) => state.search);
   if (searchQuery !== "" && books.length > 0) {
@@ -42,10 +43,11 @@ function App() {
 
   return (
     <Fragment>
+      <p>learn react</p>
       <NavBar />
       <main>
         <Search />
-        <BookList items={books} />
+        <BookList items={books} data-testid="list" />
         {newBook && <NewBook />}
       </main>
     </Fragment>

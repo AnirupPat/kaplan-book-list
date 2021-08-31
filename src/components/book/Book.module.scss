@@ -1,10 +1,13 @@
+$color-border-left: orange;
+$color-border: #fff;
+
 .book {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  border: 1px solid white;
-  border-left: 4px solid orange;
+  border: 1px solid $color-border;
+  border-left: 4px solid $color-border-left;
   border-radius: 2px 5px 5px 2px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 5px 10px;
