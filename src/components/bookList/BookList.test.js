@@ -7,7 +7,7 @@ describe("Booklist component", () => {
     const loading = true;
     render(<BookList items={items} loading={loading} />);
 
-    const linkElement = screen.getByText("Loading tasks...");
+    const linkElement = screen.getByText("Loading Books...Hold on tight");
     expect(linkElement).toBeInTheDocument();
   });
 

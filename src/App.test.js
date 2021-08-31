@@ -7,7 +7,7 @@ import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
 
 describe("Async component", () => {
-  test("renders learn react link", () => {
+  test("Successfully render the JSX elements", () => {
     render(
       <Provider store={store}>
         <App />
