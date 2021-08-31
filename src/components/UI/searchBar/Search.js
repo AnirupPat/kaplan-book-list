@@ -12,6 +12,7 @@ const Search = () => {
     <div className={styles.div}>
       <i className="fa fa-search"></i>
       <input
+        data-testid="your-id"
         ref={searchRef}
         type="text"
         placeholder="Search"
